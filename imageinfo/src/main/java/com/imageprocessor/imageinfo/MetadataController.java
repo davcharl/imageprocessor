@@ -39,12 +39,19 @@ public class MetadataController {
 			String imageSize = myImageData.getImageSize();
 			String listOfReaders = myImageData.getStringListOfReaders();
 			
+			// String imageMatrix = myImageData.getArrayFromMultipartAsString();
+			String imageMatrix = myImageData.getModifiedArrayAsString();
+			
+			
+			
+			
 			return( "\nFile name: " + fileName +
 					"\nFile content type: " + fileContentType +
-					"\nFile size: " + fileSize + 
-					"\nImage dimension: " + imageDimension + 
-					"\nImage size: " + imageSize +
-					"\nList of readers: " + listOfReaders );
+					"\nFile size from Meta: " + fileSize + 
+					"\nImage dimension from myImageData: " + imageDimension + 
+					"\nImage size from myImageData: " + imageSize +
+					"\nList of readers: " + listOfReaders + 
+					"\nModified matrix with " + myImageData.getCounter() +" elements to follow:\n" + imageMatrix);
 			
 			/*
 			// ArrayList<Byte> image = new ArrayList<Byte>();

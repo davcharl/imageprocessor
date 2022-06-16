@@ -21,7 +21,13 @@ public class ImageData {
 	private String imageDimension;
 	private String imageSize;
 	private String stringListOfReaders;
-	private String[] tempListOfReaders; 
+	private String[] tempListOfReaders;
+	
+	private byte[] arrayFromMultipart;
+	private String arrayFromMultipartAsString;
+	private String modifiedArrayAsString;
+	
+	int counter;
 	
 	public ImageData() {}
 	
@@ -29,17 +35,11 @@ public class ImageData {
 		
 		InputStream inputStream = null;
 		ImageInputStream imageInputStream = null;
-		String myFileType = myMultipartFile.getContentType();
-
-		// //////////////////////////////////
-		// 1) Read multipart to byte-array/multipart-buffer
-		// //////////////////////////////////
 		
 		// create a multipartfileInputStream
 		inputStream = createInputStream(myMultipartFile);	
 		// create a byte-array from the multipartfile payload/image
-		byte[] arrayFromMultipart = readMultipartToByteArray(myMultipartFile, imageInputStream);
-		
+		arrayFromMultipart = readMultipartToByteArray(myMultipartFile, imageInputStream);
 		
 		// sets the stringListOfReaders with the readers that can decode the image in the byte-array
 		generateListOfReaders(inputStream);
@@ -47,13 +47,18 @@ public class ImageData {
 		// set the image dimensions
 		extractImageDimensions(arrayFromMultipart);
 		
+		// convert byte[] to string just to see if we get output
+		byteArrayToString(arrayFromMultipart);
+		
 		// Convert byte-array to multipartfile
+		byte[] modifiedArray = modifyArray(arrayFromMultipart);
+		modifiedArrayAsString = byteArrayToString(modifiedArray);
 		
 		// create a new multipart file with buffered image
 		
 	}
 
-	
+
 	// ///////////
 	// ///////////
 	// GETTERS & SETTERS
@@ -89,12 +94,64 @@ public class ImageData {
 		this.tempListOfReaders = tempListOfReaders;
 	}
 	
+	public String getArrayFromMultipartAsString() {
+		byte[] tempByteArray = this.getArrayFromMultipart();
+		StringBuilder myString = new StringBuilder();
+		for(byte byteValue : tempByteArray) {
+			myString.append(byteValue + " ");
+		}
+		return myString.toString();
+	}
+
+	public void setArrayFromMultipartAsString(byte[] arrayFromMultipart) {
+		// this.arrayFromMultipartAsString = arrayFromMultipartAsString;
+	}
+
+	public byte[] getArrayFromMultipart() {
+		return arrayFromMultipart;
+	}
+
+	public void setArrayFromMultipart(byte[] arrayFromMultipart) {
+		this.arrayFromMultipart = arrayFromMultipart;
+	}
+	
+	public String getModifiedArrayAsString() {
+		return modifiedArrayAsString;
+	}
+	
+	public int getCounter() {
+		return counter;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+	
 	
 	// ///////////
 	// ///////////
 	// METHODS
 	// ///////////
 	// ///////////
+	
+	
+	
+
+
+
+	private byte[] modifyArray(byte[] byteArrayToModify) {
+		
+		byte[] tempArray = byteArrayToModify;
+		int loopCounter = 0;
+		for(int i=0; i<byteArrayToModify.length; i++) {
+			if(byteArrayToModify[i] > 20 || byteArrayToModify[i] < -20) {
+				tempArray[i] =  (byte)(byteArrayToModify[i]/10);
+			}
+			loopCounter++;
+		}
+		this.setCounter(loopCounter);
+		return tempArray;
+	}
 
 	
 	private void extractImageDimensions(byte[] multipartToByteArray) {
@@ -227,6 +284,22 @@ public class ImageData {
 		}
 		return multipartfileInputStream;
 	}
+	
+	// TOY: Convert byte[] to string to see output
+	private String byteArrayToString(byte[] arrayFromMultipart) {
+		
+		StringBuilder myString = new StringBuilder();
+		for(Byte pixelValue : arrayFromMultipart) {
+			myString.append(pixelValue + " "); 
+		}
+		
+		return myString.toString();
+		
+	}
+
+	
+
+	
 	
 	
 }
