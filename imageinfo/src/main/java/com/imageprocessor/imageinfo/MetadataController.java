@@ -33,18 +33,18 @@ public class MetadataController {
 			
 			String fileName = file.getOriginalFilename();
 			String fileContentType = file.getContentType();
-			String fileDimension = myMetaData.getImageDimension();
 			String fileSize = myMetaData.getImageSize();
 			
 			String imageDimension = myImageData.getImageDimension();
 			String imageSize = myImageData.getImageSize();
+			String listOfReaders = myImageData.getStringListOfReaders();
 			
-			return( "File name: " + fileName +
-					" File content type: " + fileContentType +
-					" File dimesnions: " + fileDimension +
-					" File size: " + fileSize + 
-					" Image dimension: " + imageDimension + 
-					" Image size: " + imageSize );
+			return( "\nFile name: " + fileName +
+					"\nFile content type: " + fileContentType +
+					"\nFile size: " + fileSize + 
+					"\nImage dimension: " + imageDimension + 
+					"\nImage size: " + imageSize +
+					"\nList of readers: " + listOfReaders );
 			
 			/*
 			// ArrayList<Byte> image = new ArrayList<Byte>();
@@ -53,7 +53,7 @@ public class MetadataController {
 				image = file.getBytes();
 				return "File name: " + fileName +
 						" File content type: " + fileContentType +
-						" File dimesnions: " + fileDimension +
+						" File dimensions: " + fileDimension +
 						" File size: " + fileSize;
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
